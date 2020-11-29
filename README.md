@@ -1,6 +1,6 @@
 # manuals
 
-A new Flutter application.
+A Flutter application to show saved pdf in app with interface
 
 ## Getting Started
 
