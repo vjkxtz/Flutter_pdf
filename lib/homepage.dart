@@ -14,101 +14,108 @@ class mainpage extends StatefulWidget {
 class _mainpageState extends State<mainpage> {
   String assetpdfpath = "";
 
-   Future<File> getFileFromAsset(String asset, String filename) async {
-     try {
-       var data = await rootBundle.load(asset);
-       var bytes = data.buffer.asUint8List();
-       var dir = await getApplicationDocumentsDirectory();
-       File file = File("${dir.path}/$filename");
+  Future<File> getFileFromAsset(String asset, String filename) async {
+    try {
+      var data = await rootBundle.load(asset);
+      var bytes = data.buffer.asUint8List();
+      var dir = await getApplicationDocumentsDirectory();
+      File file = File("${dir.path}/$filename");
 
-       File assetFile = await file.writeAsBytes(bytes);
-       return assetFile;
-     } catch (e) {
-       throw Exception("Error opening asset file");
-     }
-   }
-   @override
-  void initState() {
+      File assetFile = await file.writeAsBytes(bytes);
+      return assetFile;
+    } catch (e) {
+      throw Exception("Error opening asset file");
+    }
   }
+
+  @override
+  void initState() {}
   List<Assetsname> _assetsname = assetsname;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Manuals'
-        ),
+        title: Text('Manuals'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ListView(
-            shrinkWrap: true,
-            children: _assetsname.map(_builditems).toList(),
-          )
-        ],
+      body: NestedScrollView(
+        headerSliverBuilder:(BuildContext context, bool innerBoxIsScrolled) {
+          return 
+        },
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ListView(
+              shrinkWrap: true,
+              children: _assetsname.map(_builditems).toList(),
+            )
+          ],
+        ),
       ),
     );
   }
-  Widget _builditems(Assetsname e){
+
+  // builder for cards in hompage datafeed from assetsname.dart
+  Widget _builditems(Assetsname e) {
     String k = e.line;
     print(k.split(" "));
-     return Padding(
-       key: Key(e.linename),
-       padding: EdgeInsets.all(10),
-       child: Card(
-         color:  Color(0xFFEBC600) ,
-         shadowColor: Color(0xFFB06A01),
-         child: ExpansionTile(
-           title: Text(
-             e.linename,
-             style: TextStyle(
-               fontSize: 20,
-             ),
-           ),
-           children: [
-             Column(
-               mainAxisAlignment: MainAxisAlignment.center,
-               crossAxisAlignment: CrossAxisAlignment.center,
-               children: [
-                 Text(
-                   e.description,
-                   style: TextStyle(
-                     fontSize: 15,
-                   ),
-                 ),
-                 DropdownButton(
-                   icon: Icon(Icons.arrow_downward),
-                     elevation: 16,
-                     style: TextStyle(
-                       color: Colors.redAccent
-                     ),
-                     items:<String>[e.line].map<DropdownMenuItem<String>>((String value){
-                   return DropdownMenuItem<String>(
-                     value: value,
-                     child: Text(
-                       value,
-                       style: TextStyle(
-                         fontSize: 20
-                       ),
-                     ),
-                   );
-                 }).toList(), onChanged: (String newValve){
-                      getFileFromAsset("assets/$newValve","$newValve").then((f){
-                          setState(() {
-                       assetpdfpath = f.path;
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>PdfViewPage(path: assetpdfpath,) ));
-    });
-    });
-    },
-                 )
-               ],
-             )
-           ],
-         ),
-       ),
-     );
+    return ListView(
+      key: Key(e.linename),
+      padding: EdgeInsets.all(10),
+      children:[ Card(
+        color: Color(0xFFEBC600),
+        shadowColor: Color(0xFFB06A01),
+        child: ExpansionTile(
+          title: Text(
+            e.linename,
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  e.description,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                DropdownButton(
+                  icon: Icon(Icons.arrow_downward),
+                  elevation: 16,
+                  style: TextStyle(color: Colors.redAccent),
+                  items: <String>[e.line]
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String newValve) {
+                    getFileFromAsset("assets/$newValve", "$newValve").then((f) {
+                      setState(() {
+                        assetpdfpath = f.path;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PdfViewPage(
+                                      path: assetpdfpath,
+                                    )));
+                      });
+                    });
+                  },
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+   ] );
   }
 }
-
