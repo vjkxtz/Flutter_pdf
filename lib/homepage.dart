@@ -39,7 +39,8 @@ class _mainpageState extends State<mainpage> {
       ),
       body: NestedScrollView(
         headerSliverBuilder:(BuildContext context, bool innerBoxIsScrolled) {
-          return 
+          return ;
+          //body to be added
         },
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
