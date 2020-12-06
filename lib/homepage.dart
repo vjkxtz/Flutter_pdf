@@ -37,33 +37,26 @@ class _mainpageState extends State<mainpage> {
       appBar: AppBar(
         title: Text('Manuals'),
       ),
-      body: NestedScrollView(
-        headerSliverBuilder:(BuildContext context, bool innerBoxIsScrolled) {
-          return ;
-          //body to be added
-        },
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ListView(
-              shrinkWrap: true,
-              children: _assetsname.map(_builditems).toList(),
-            )
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ListView(
+            shrinkWrap: true,
+            children: _assetsname.map(_builditems).toList(),
+          )
+        ],
       ),
     );
   }
 
-  // builder for cards in hompage datafeed from assetsname.dart
+
   Widget _builditems(Assetsname e) {
     String k = e.line;
     print(k.split(" "));
-    return ListView(
+    return SafeArea(
       key: Key(e.linename),
-      padding: EdgeInsets.all(10),
-      children:[ Card(
+      child: Card(
         color: Color(0xFFEBC600),
         shadowColor: Color(0xFFB06A01),
         child: ExpansionTile(
@@ -117,6 +110,6 @@ class _mainpageState extends State<mainpage> {
           ],
         ),
       ),
-   ] );
+    );
   }
 }
