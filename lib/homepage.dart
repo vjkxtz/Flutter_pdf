@@ -41,10 +41,15 @@ class _mainpageState extends State<mainpage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ListView(
-            shrinkWrap: true,
-            children: _assetsname.map(_builditems).toList(),
-          )
+               Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: new EdgeInsets.symmetric(vertical: 8.0),
+                  children: _assetsname.map(_builditems).toList(),
+                ),
+              ),
+
+
         ],
       ),
     );
@@ -55,6 +60,7 @@ class _mainpageState extends State<mainpage> {
     String k = e.line;
     print(k.split(" "));
     return SafeArea(
+      minimum: EdgeInsets.all(10),
       key: Key(e.linename),
       child: Card(
         color: Color(0xFFEBC600),
@@ -67,45 +73,39 @@ class _mainpageState extends State<mainpage> {
             ),
           ),
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  e.description,
-                  style: TextStyle(
-                    fontSize: 15,
+            Text(
+              e.description,
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            DropdownButton(
+              icon: Icon(Icons.arrow_downward),
+              elevation: 16,
+              style: TextStyle(color: Colors.redAccent),
+              items: <String>[e.line]
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: TextStyle(fontSize: 20),
                   ),
-                ),
-                DropdownButton(
-                  icon: Icon(Icons.arrow_downward),
-                  elevation: 16,
-                  style: TextStyle(color: Colors.redAccent),
-                  items: <String>[e.line]
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (String newValve) {
-                    getFileFromAsset("assets/$newValve", "$newValve").then((f) {
-                      setState(() {
-                        assetpdfpath = f.path;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PdfViewPage(
-                                      path: assetpdfpath,
-                                    )));
-                      });
-                    });
-                  },
-                )
-              ],
+                );
+              }).toList(),
+              onChanged: (String newValve) {
+                getFileFromAsset("assets/$newValve", "$newValve").then((f) {
+                  setState(() {
+                    assetpdfpath = f.path;
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PdfViewPage(
+                                  path: assetpdfpath,
+                                )));
+                  });
+                });
+              },
             )
           ],
         ),
