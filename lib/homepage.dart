@@ -1,10 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manuals/assetsname.dart';
+import 'package:manuals/constants.dart';
 import 'package:manuals/pdf_opener.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
+import 'package:sprintf/sprintf.dart';
+
+enum activetype{
+  active,
+  inactive
+}
 
 class mainpage extends StatefulWidget {
   @override
@@ -54,16 +61,21 @@ class _mainpageState extends State<mainpage> {
       ),
     );
   }
-
-
   Widget _builditems(Assetsname e) {
-    String k = e.line;
-    print(k.split(" "));
+    getTextWidgets(List<String> strings){
+      List<String> list = new List<String>();
+      for(var i = 0; i < strings.length; i++){
+        return list;
+      }
+    }
+    activetype active;
     return SafeArea(
       minimum: EdgeInsets.all(10),
       key: Key(e.linename),
       child: Card(
-        color: Color(0xFFEBC600),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+        color: Colors.yellow,
+
         shadowColor: Color(0xFFB06A01),
         child: ExpansionTile(
           title: Text(
@@ -81,18 +93,23 @@ class _mainpageState extends State<mainpage> {
             ),
             DropdownButton(
               icon: Icon(Icons.arrow_downward),
+              dropdownColor: Colors.yellowAccent,
               elevation: 16,
               style: TextStyle(color: Colors.redAccent),
-              items: <String>[e.line]
-                  .map<DropdownMenuItem<String>>((String value) {
+              items: <String> [for(int i = 0; i < e.line.length; i++) ( e.line[i].toString() )].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(fontSize: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Text(
+                      value,
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 );
-              }).toList(),
+              }).toList() ,
               onChanged: (String newValve) {
                 getFileFromAsset("assets/$newValve", "$newValve").then((f) {
                   setState(() {
@@ -106,10 +123,12 @@ class _mainpageState extends State<mainpage> {
                   });
                 });
               },
-            )
+            ),
+
           ],
         ),
       ),
     );
   }
 }
+
