@@ -3,8 +3,9 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class PdfViewPage extends StatefulWidget {
   final String path;
+  final String name;
 
-  const PdfViewPage({Key key, this.path}) : super(key: key);
+  const PdfViewPage({Key key, this.path, this.name}) : super(key: key);
   @override
   _PdfViewPageState createState() => _PdfViewPageState();
 }
@@ -19,7 +20,7 @@ class _PdfViewPageState extends State<PdfViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Icon(Icons.pages_sharp)
+        title: Text(widget.name)
       ),
       body: Stack(
         children: <Widget>[
