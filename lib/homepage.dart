@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manuals/assetsname.dart';
-import 'package:manuals/constants.dart';
 import 'package:manuals/pdf_opener.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
-import 'package:sprintf/sprintf.dart';
 
 enum activetype{
   active,
@@ -48,13 +46,13 @@ class _mainpageState extends State<mainpage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-               Flexible(
-                child: ListView(
-                  shrinkWrap: true,
-                  padding: new EdgeInsets.symmetric(vertical: 8.0),
-                  children: _assetsname.map(_builditems).toList(),
-                ),
-              ),
+          Flexible(
+            child: ListView(
+              shrinkWrap: true,
+              padding: new EdgeInsets.symmetric(vertical: 8.0),
+              children: _assetsname.map(_builditems).toList(),
+            ),
+          ),
 
 
         ],
@@ -62,13 +60,6 @@ class _mainpageState extends State<mainpage> {
     );
   }
   Widget _builditems(Assetsname e) {
-    getTextWidgets(List<String> strings){
-      List<String> list = new List<String>();
-      for(var i = 0; i < strings.length; i++){
-        return list;
-      }
-    }
-    activetype active;
     return SafeArea(
       minimum: EdgeInsets.all(10),
       key: Key(e.linename),
@@ -111,15 +102,16 @@ class _mainpageState extends State<mainpage> {
                 );
               }).toList() ,
               onChanged: (String newValve) {
-                getFileFromAsset("assets/$newValve", "$newValve").then((f) {
+                getFileFromAsset("assets/$newValve.pdf", "$newValve.pdf").then((f) {
                   setState(() {
                     assetpdfpath = f.path;
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => PdfViewPage(
-                                  path: assetpdfpath,
-                                )));
+                              path: assetpdfpath,
+                              name: newValve,
+                            )));
                   });
                 });
               },
@@ -131,4 +123,3 @@ class _mainpageState extends State<mainpage> {
     );
   }
 }
-
