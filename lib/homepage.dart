@@ -60,6 +60,7 @@ class _mainpageState extends State<mainpage> {
     );
   }
   Widget _builditems(Assetsname e) {
+    double c_width = MediaQuery.of(context).size.width*0.6;
     return SafeArea(
       minimum: EdgeInsets.all(10),
       key: Key(e.linename),
@@ -91,12 +92,12 @@ class _mainpageState extends State<mainpage> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
+                    padding: const EdgeInsets.all(16),
+                    width: c_width,
                     child: Text(
                       value,
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20,
+                      color: Colors.blue),
                     ),
                   ),
                 );
