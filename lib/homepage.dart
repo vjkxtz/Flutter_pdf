@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manuals/assetsname.dart';
 import 'package:manuals/pdf_opener.dart';
+import 'package:manuals/side_menu.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
@@ -24,6 +25,7 @@ class _mainpageState extends State<mainpage> {
       var data = await rootBundle.load(asset);
       var bytes = data.buffer.asUint8List();
       var dir = await getApplicationDocumentsDirectory();
+      print(dir.path);
       File file = File("${dir.path}/$filename");
 
       File assetFile = await file.writeAsBytes(bytes);
@@ -39,6 +41,7 @@ class _mainpageState extends State<mainpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Sidemenu(),
       appBar: AppBar(
         title: Text('Manuals'),
       ),
@@ -88,7 +91,7 @@ class _mainpageState extends State<mainpage> {
               dropdownColor: Colors.yellowAccent,
               elevation: 16,
               style: TextStyle(color: Colors.redAccent),
-              items: <String> [for(int i = 0; i < e.line.length; i++) ( e.line[i].toString() )].map<DropdownMenuItem<String>>((String value) {
+              items: <String> [ for(int i = 0; i < e.line.length; i++) ( e.line[i].toString() )].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Container(
