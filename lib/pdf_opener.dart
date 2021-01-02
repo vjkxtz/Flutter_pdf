@@ -20,7 +20,31 @@ class _PdfViewPageState extends State<PdfViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name)
+        title: Text(widget.name),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.first_page),
+              onPressed: () {
+                setState(() {
+                  _currentPage = 0;
+                  _pdfViewController.setPage(_currentPage);
+                });
+              }),
+          PopupMenuButton(itemBuilder: (BuildContext context) => [
+            PopupMenuItem(child: Text('hello there'),
+           // TODO: search in appbar to be added 
+             )
+          ] ),
+          IconButton(
+            icon: Icon(Icons.last_page),
+            onPressed: () {
+              setState(() {
+                _currentPage = _totalPages;
+                _pdfViewController.setPage(_currentPage);
+              });
+            },
+          )
+        ],
       ),
       body: Stack(
         children: <Widget>[
@@ -50,8 +74,8 @@ class _PdfViewPageState extends State<PdfViewPage> {
           ),
           !pdfReady
               ? Center(
-            child: CircularProgressIndicator(),
-          )
+                  child: CircularProgressIndicator(),
+                )
               : Offstage()
         ],
       ),
@@ -60,23 +84,23 @@ class _PdfViewPageState extends State<PdfViewPage> {
         children: <Widget>[
           _currentPage > 0
               ? FloatingActionButton.extended(
-            backgroundColor: Colors.red,
-            label: Text("Go to ${_currentPage - 1}"),
-            onPressed: () {
-              _currentPage -= 1;
-              _pdfViewController.setPage(_currentPage);
-            },
-          )
+                  backgroundColor: Colors.red,
+                  label: Text("Go to ${_currentPage - 1}"),
+                  onPressed: () {
+                    _currentPage -= 1;
+                    _pdfViewController.setPage(_currentPage);
+                  },
+                )
               : Offstage(),
-          _currentPage+1 < _totalPages
+          _currentPage + 1 < _totalPages
               ? FloatingActionButton.extended(
-            backgroundColor: Colors.green,
-            label: Text("Go to ${_currentPage + 1}"),
-            onPressed: () {
-              _currentPage += 1;
-              _pdfViewController.setPage(_currentPage);
-            },
-          )
+                  backgroundColor: Colors.green,
+                  label: Text("Go to ${_currentPage + 1}"),
+                  onPressed: () {
+                    _currentPage += 1;
+                    _pdfViewController.setPage(_currentPage);
+                  },
+                )
               : Offstage(),
         ],
       ),
