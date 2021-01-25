@@ -68,9 +68,8 @@ class _mainpageState extends State<mainpage> {
       minimum: EdgeInsets.all(10),
       key: Key(e.linename),
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-        color: Colors.yellow,
-
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+        color: Colors.deepOrange,
         shadowColor: Color(0xFFB06A01),
         child: ExpansionTile(
           title: Text(
@@ -88,7 +87,7 @@ class _mainpageState extends State<mainpage> {
             ),
             DropdownButton(
               icon: Icon(Icons.arrow_downward),
-              dropdownColor: Colors.yellowAccent,
+              dropdownColor: Colors.white,
               elevation: 16,
               style: TextStyle(color: Colors.redAccent),
               items: <String> [ for(int i = 0; i < e.line.length; i++) ( e.line[i].toString() )].map<DropdownMenuItem<String>>((String value) {
